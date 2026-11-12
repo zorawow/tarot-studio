@@ -79,6 +79,10 @@ const viewPositions: Record<Environment, string> = {
   lake: "0% 100%",
   rain: "100% 100%",
 };
+const teaPayments = [
+  { label: "微信支付", file: "tea-wechat-original.png" },
+  { label: "支付宝", file: "tea-alipay-original.png" },
+];
 function DailyReflection() {
   const [day, setDay] = useState(dateKey);
   useEffect(() => {
@@ -254,6 +258,7 @@ export function Studio({
   );
   const timer = useRef<number | undefined>(undefined),
     world = useRef<HTMLDivElement>(null);
+  const teaDialog = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
   useEffect(() => () => window.clearTimeout(timer.current), []);
   useEffect(() => {
@@ -347,7 +352,6 @@ export function Studio({
             alt=""
             draggable={false}
           />
-          <span className="scene-decoration object-image" aria-hidden="true" />
           <nav className="desktop-objects" aria-label="书房主菜单">
             {objects.map((item) => (
               <button
@@ -369,6 +373,16 @@ export function Studio({
               </button>
             ))}
           </nav>
+          <button
+            type="button"
+            className="scene-object object-tea"
+            aria-haspopup="dialog"
+            aria-controls="studio-tea"
+            onClick={() => teaDialog.current?.showModal()}
+          >
+            <span className="object-image" aria-hidden="true" />
+            <span className="scene-object-label">请喝杯茶</span>
+          </button>
         </div>
       </div>
       <div className="scene-vignette" aria-hidden="true" />
@@ -409,6 +423,42 @@ export function Studio({
         </div>
       </header>
       <DailyReflection />
+      <dialog
+        className="modal studio-tea"
+        id="studio-tea"
+        ref={teaDialog}
+        aria-labelledby="studio-tea-title"
+        aria-describedby="studio-tea-note"
+      >
+        <div className="modal-top">
+          <h2 id="studio-tea-title">请喝杯茶</h2>
+          <form method="dialog">
+            <button className="icon-button" aria-label="关闭请喝杯茶">
+              <X size={20} aria-hidden="true" />
+            </button>
+          </form>
+        </div>
+        <p id="studio-tea-note">
+          如果这里陪你度过了一小段安静时光，欢迎请我喝杯茶。心意随意，谢谢你来书房坐坐。
+        </p>
+        <div className="studio-tea-options">
+          {teaPayments.map(({ label, file }) => {
+            const image = `${import.meta.env.BASE_URL}studio/${file}`;
+            return (
+              <figure key={file}>
+                <figcaption>{label}</figcaption>
+                <img src={image} alt={`${label}收款二维码`} loading="lazy" />
+                <a href={image} download aria-label={`保存${label}二维码`}>
+                  保存二维码
+                </a>
+              </figure>
+            );
+          })}
+        </div>
+        <p className="studio-tea-hint">
+          可用对应的 App 扫码，也可保存二维码后从相册识别。
+        </p>
+      </dialog>
       {panel && (
         <>
           <button

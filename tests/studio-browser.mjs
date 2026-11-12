@@ -72,6 +72,33 @@ const checkRoomArtwork = async (filename) => {
     )
     .toBe(`/studio/${filename}`);
 };
+const checkTeaDialog = async (closeWithKeyboard) => {
+  const entry = page.getByRole("button", { name: "请喝杯茶", exact: true });
+  await expect(entry.getByText("请喝杯茶")).toBeInViewport({ ratio: 1 });
+  await entry.getByText("请喝杯茶").click();
+  const dialog = page.getByRole("dialog", { name: "请喝杯茶" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toBeInViewport({ ratio: 1 });
+  for (const [label, file] of [
+    ["微信支付", "tea-wechat-original.png"],
+    ["支付宝", "tea-alipay-original.png"],
+  ]) {
+    const code = dialog.getByRole("img", { name: `${label}收款二维码` });
+    await expect(code).toBeVisible();
+    await expect(code).toHaveAttribute("src", `/studio/${file}`);
+    await expect.poll(() => code.evaluate((img) => img.naturalWidth)).toBeGreaterThan(0);
+    const save = dialog.getByRole("link", { name: `保存${label}二维码` });
+    await expect(save).toHaveAttribute("href", `/studio/${file}`);
+    await expect(save).toHaveAttribute("download", "");
+  }
+  if (closeWithKeyboard) {
+    await page.keyboard.press("Escape");
+    await expect(entry).toBeFocused();
+  } else {
+    await dialog.getByRole("button", { name: "关闭请喝杯茶" }).click();
+  }
+  await expect(dialog).toBeHidden();
+};
 await mkdir("docs", { recursive: true });
 try {
   await home();
@@ -87,6 +114,7 @@ try {
   await checkTabletopEdge();
   await checkRoomArtwork("room-open-floor.webp");
   await expect(page.locator(".studio-welcome")).toHaveCount(0);
+  await checkTeaDialog(true);
   for (const label of await page.locator(".scene-object-label").all()) {
     await expect(label).toBeInViewport();
     await expect(label).toHaveCSS("opacity", "1");
@@ -256,6 +284,7 @@ try {
     await home();
     await checkTabletopEdge();
     await checkRoomArtwork("room-mobile-open.webp");
+    await checkTeaDialog(false);
     for (const [label, route] of [
       ["抽牌", "/lab"],
       ["塔罗学院", "/courses"],
@@ -315,6 +344,7 @@ try {
           "environment preference persisted",
           "real audio opt-in / volume / independent toggles / cross-route continuity / reload silent",
           "single room menu and four always visible labels, desktop and 390/320px",
+          "tea cup dialog, both QR images and download links, Escape focus and mobile close",
           "tabletop front edge near viewport bottom, 320x568 entry clicks and daily reflection by local date",
           "mobile loads frameless room artwork while desktop uses the framed room",
           "manual shuffled78card selection to morning diary",
