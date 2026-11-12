@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#17201d" />
+    <meta
+      name="description"
+      content="Tarot Studio 我的塔罗书房：在温暖的窗边学习塔罗、亲手抽牌、记录早晚生活与自我觉察。"
+    />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <title>Tarot Studio · 我的塔罗书房</title>
+    <script>
+      try {
+        document.documentElement.dataset.theme =
+          localStorage.getItem("tarot-theme") === "light" ? "light" : "dark";
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

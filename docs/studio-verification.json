@@ -1,0 +1,21 @@
+{
+  "testedAt": "2026-11-12T13:36:55.891Z",
+  "result": "PASS",
+  "browser": "157.0.8103.51",
+  "desktop": "1440x960",
+  "mobile": "390x844",
+  "checks": [
+    "fixed object geometry across4environments",
+    "environment preference persisted",
+    "real audio opt-in / volume / independent toggles / cross-route continuity / reload silent",
+    "single room menu and four always visible labels, desktop and 390/320px",
+    "tabletop front edge near viewport bottom, 320x568 entry clicks and daily reflection by local date",
+    "mobile loads frameless room artwork while desktop uses the framed room",
+    "manual shuffled78card selection to morning diary",
+    "morning interpretation persists across reload",
+    "legacy notes / courses preserved",
+    "10 routes dark/light mobile nooverflow",
+    "skip animation and actual camera transition",
+    "no runtimeerrors"
+  ]
+}

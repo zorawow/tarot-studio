@@ -1,0 +1,30 @@
+{
+  "testedAt": "2026-11-12T10:43:24.110Z",
+  "browser": "157.0.8103.51",
+  "viewportDesktop": "1440x1060",
+  "viewportMobile": "390x844",
+  "result": "PASS",
+  "downloadVerification": "file saved",
+  "checks": [
+    "78-card search/filter",
+    "upright/reversed",
+    "favorites/status/notes refresh persistence",
+    "lesson exercise completion",
+    "8 quiz modes and answer locking",
+    "flashcard self-rating",
+    "3-card draw without duplicates",
+    "reference unlock after independent reading",
+    "draft persistence",
+    "journal create/edit/search/delete confirmation",
+    "JSON full-text export/import",
+    "7/30 day statistics",
+    "13 routes mobile dark/light overflow",
+    "theme persistence",
+    "no browser runtime errors",
+    "future lesson IDs retained with a safe dashboard fallback",
+    "record IDs when randomUUID is unavailable",
+    "question diagnosis, editable suggestions, lab handoff without clobbering an active draw",
+    "deep lesson chapter navigation, five positions, case reasoning, exercises and draft persistence",
+    "ten-step first reading, own interpretation gate, teacher reference and journal persistence"
+  ]
+}
